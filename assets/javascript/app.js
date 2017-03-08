@@ -41,10 +41,29 @@ function timer(i) {
     }, 1000);
 }
 
+function wait(i) {
+    num = setTimeout(function () {
+        number++;
+		if (number < quizQuestions.length){
+			startGame();
+		}
+		else {
+			$("#trivia").hide();
+			$("#endGameText").html("<h3>"+counter + "/" + quizQuestions.length + " correct<h3>");
+			$("#endGameText").show();
+			$("#startButton").show();
+		}
+    }, 1000*i);
+}
+
 function startGame(){
-	$("#timer").show();
-	timer(30);
-	$("#submitButton").show();
+	$(".display").show();
+	// $("#timer").show();
+	timer(15);
+	// $("#submitButton").show();
+	// $("#trivia").show();
+	$("#endGameText").hide();
+	$("#submitButton").css("display", "block");
 	$("#trivia").html("<div id='question'>"+quizQuestions[number].question+"<br></div>");
 	for (j=0;j<quizQuestions[number].choices.length;j++){
 		$("#question").append("<input type='radio' id='choice"+number+j+"' name='choice"+number+"' data-value='"+quizQuestions[number].choices[j]+"'>"+quizQuestions[number].choices[j]+" ");
@@ -52,18 +71,25 @@ function startGame(){
 	};
 
 function checkAnswer(){
+	var checked = $("input:checked").data("value");
 	$("#submitButton").hide();
 	$("#timer").hide();
-	$("#nextButton").show();
-	if ($("input:checked").data("value") === quizQuestions[number].answer){
+	if ( checked === quizQuestions[number].answer){
 		counter++;
 		$("#trivia").html("Correct! "+quizQuestions[number].answerSentence);
 	}else {
-		$("#trivia").html("Wrong! " + quizQuestions[number].answer + " is the correct answer. "+quizQuestions[number].answerSentence);
+		if (checked === undefined){
+			$("#trivia").html("No answer is the wrong answer! The correct answer is " + quizQuestions[number].answer + ". "+quizQuestions[number].answerSentence);
+		}
+		else {
+			$("#trivia").html(checked + " is the wrong answer! The correct answer is " + quizQuestions[number].answer + ". "+quizQuestions[number].answerSentence);	
+		}
 	}
+	wait(7);
 };
 
 $("#startButton").on("click", function(){
+	number=0;
 	$("#startButton").hide();
 	startGame();
 });
@@ -73,13 +99,4 @@ $("#submitButton").on("click", function(){
 	checkAnswer();
 });
 
-$("#nextButton").on("click", function(){
-	$("#nextButton").hide();
-	number++;
-	if (number < quizQuestions.length){
-		startGame();
-	}
-	else {
-		$("#trivia").html("<h3>"+counter + "/" + quizQuestions.length + " correct.<h3>");
-	}
-})
+

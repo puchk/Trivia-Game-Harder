@@ -6,8 +6,20 @@ body {
 	display:none;
 }
 
-#all{
+#all {
 	background: white;
 	opacity: .9;
 	margin-top: 40px;
+}
+
+.alignCenter {
+	text-align: center;
+}
+
+#trivia {
+	margin: 20px auto;
+}
+
+#submitButton {
+	margin-bottom: 10px;
 }
