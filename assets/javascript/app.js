@@ -30,14 +30,15 @@ var num;
 var number = 0;
 
 function timer(i) {
+	document.getElementById("countdown").innerHTML = i;
     num = setInterval(function () {
-        document.getElementById("countdown").innerHTML = i;
         if (i>0){
         	i--;
         }else {
         	clearInterval(num);
         	checkAnswer();
         }
+        document.getElementById("countdown").innerHTML = i;
     }, 1000);
 }
 
